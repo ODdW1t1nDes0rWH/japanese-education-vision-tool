@@ -3,89 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>日本語学校の理念生成フォーム</title>
-  <script>
-    function generatePolicy() {
-      const keywords = document.getElementById("keywords").value;
-      const targetStudents = document.getElementById("targetStudents").value;
-      const futurePath = document.getElementById("futurePath").value;
-      const learningFocus = document.getElementById("learningFocus").value;
-      const regionRole = document.getElementById("regionRole").value;
-      const currentStructure = document.getElementById("currentStructure").value;
-      const idealStructure = document.getElementById("idealStructure").value;
-
-      let policyText = "【理念】\n";
-      policyText += `本校は「${keywords}」を大切にし、${targetStudents}を対象に、日本語教育を通じてその可能性を広げることを目指します。\n\n`;
-      policyText += "【目的】\n";
-      policyText += `${futurePath}を見据えた学習環境を提供し、学生一人ひとりの成長と社会参画を支援します。\n\n`;
-      policyText += "【教育目標】\n";
-      policyText += `${learningFocus}を重視した教育を行い、${regionRole}に貢献する人材を育成します。\n\n`;
-      policyText += "【現状と理想の体制ギャップ】\n";
-      policyText += `現状の体制は「${currentStructure}」であり、理想とする体制は「${idealStructure}」です。両者のギャップを踏まえ、段階的な改善を図ります。`;
-
-      document.getElementById("output").textContent = policyText;
-    }
-  </script>
+  <title>日本語学校設計フォーム</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+    h1 { color: #3d79d5; }
+    label { display: block; margin-top: 10px; }
+    textarea, input[type="text"], select { width: 100%; padding: 8px; margin-top: 5px; }
+    .checkbox-group { margin-top: 10px; }
+    .checkbox-group label { display: inline-block; margin-right: 10px; }
+    button { margin-top: 20px; padding: 10px 20px; background-color: #3d79d5; color: white; border: none; cursor: pointer; }
+  </style>
 </head>
 <body>
-  <h1>日本語学校の理念・目的・目標生成フォーム</h1>
-  <form onsubmit="event.preventDefault(); generatePolicy();">
-    <label>学校が大切にしているキーワード（自由記述）:<br>
-      <textarea id="keywords" rows="2" cols="60" placeholder="例：多様性、成長、信頼、安全"></textarea>
-    </label><br><br>
+  <h1>日本語学校設計フォーム</h1>
+  <form id="schoolForm">
 
-    <label>対象とする学生像:<br>
-      <select id="targetStudents">
-        <option>地域定着を目指す留学生</option>
-        <option>進学を目指す学生</option>
-        <option>特定技能での就労を目指す外国人</option>
-        <option>社会での自立を目指す若者</option>
-        <option>母国との架け橋となる人材</option>
-        <option>その他</option>
-      </select>
-    </label><br><br>
+    <label>想定する学生の出身国・地域（複数選択可）:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="nationality" value="ネパール">ネパール</label>
+      <label><input type="checkbox" name="nationality" value="ベトナム">ベトナム</label>
+      <label><input type="checkbox" name="nationality" value="中国">中国</label>
+      <label><input type="checkbox" name="nationality" value="ミャンマー">ミャンマー</label>
+      <label><input type="checkbox" name="nationality" value="スリランカ">スリランカ</label>
+      <label><input type="checkbox" name="nationality" value="その他">その他</label>
+    </div>
 
-    <label>学生の卒業後の進路:<br>
-      <select id="futurePath">
-        <option>大学・専門学校等への進学</option>
-        <option>日本国内での就労</option>
-        <option>母国でのキャリア形成</option>
-        <option>地域貢献活動への参加</option>
-        <option>グローバルな活躍</option>
-      </select>
-    </label><br><br>
+    <label>卒業後の進路（複数選択可）:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="career" value="進学（大学院・大学）">進学（大学院・大学）</label>
+      <label><input type="checkbox" name="career" value="進学（専門学校）">進学（専門学校）</label>
+      <label><input type="checkbox" name="career" value="就職（技人国）">就職（技人国）</label>
+      <label><input type="checkbox" name="career" value="就職（特定技能）">就職（特定技能）</label>
+      <label><input type="checkbox" name="career" value="その他">その他</label>
+    </div>
 
-    <label>学習上重視するポイント:<br>
-      <select id="learningFocus">
-        <option>JLPTやEJU等の試験対策</option>
-        <option>実践的な会話力の向上</option>
-        <option>日本文化やマナーの理解</option>
-        <option>ビジネス日本語</option>
-        <option>専門分野の語彙・知識習得</option>
-      </select>
-    </label><br><br>
+    <label>卒業時に目指す日本語力（複数選択可／JF参照枠）:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="level" value="A1">A1</label>
+      <label><input type="checkbox" name="level" value="A2">A2</label>
+      <label><input type="checkbox" name="level" value="B1">B1</label>
+      <label><input type="checkbox" name="level" value="B2">B2</label>
+      <label><input type="checkbox" name="level" value="C1">C1</label>
+      <label><input type="checkbox" name="level" value="C2">C2</label>
+    </div>
 
-    <label>地域との関わりや役割:<br>
-      <select id="regionRole">
-        <option>地域社会との共生</option>
-        <option>地方創生への貢献</option>
-        <option>ボランティア活動の促進</option>
-        <option>地域企業との連携</option>
-        <option>国際交流の推進</option>
-      </select>
-    </label><br><br>
+    <label>入学時期（複数選択可）:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="admission" value="4月">4月</label>
+      <label><input type="checkbox" name="admission" value="10月">10月</label>
+      <label><input type="checkbox" name="admission" value="その他">その他</label>
+    </div>
 
-    <label>現在の体制・リソース（自由記述）:<br>
-      <textarea id="currentStructure" rows="2" cols="60" placeholder="例：教員3名、進路担当1名、地域との連携なし"></textarea>
-    </label><br><br>
+    <label>学校を設立しようと思った理由（複数選択可＋自由記述）:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="reason" value="人材育成">自社で活躍する人材を育成したい</label>
+      <label><input type="checkbox" name="reason" value="事業多角化">事業の多角化の一環として</label>
+      <label><input type="checkbox" name="reason" value="不動産活用">土地や建物を活用したい</label>
+      <label><input type="checkbox" name="reason" value="地域貢献">地域に貢献したい</label>
+    </div>
+    <textarea name="reason_free" placeholder="その他、自由記述欄"></textarea>
 
-    <label>理想とする体制・リソース（自由記述）:<br>
-      <textarea id="idealStructure" rows="2" cols="60" placeholder="例：教員5名、キャリア支援担当常駐、地元NPOとの連携体制"></textarea>
-    </label><br><br>
+    <label>学校で実現したいこと・思い（複数選択可＋自由記述）:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="vision" value="共生社会">外国人が活躍できる共生社会の実現</label>
+      <label><input type="checkbox" name="vision" value="地域貢献">地域活性化に寄与したい</label>
+      <label><input type="checkbox" name="vision" value="教育の質">質の高い教育を提供したい</label>
+      <label><input type="checkbox" name="vision" value="夢の支援">留学生の夢を応援したい</label>
+    </div>
+    <textarea name="vision_free" placeholder="その他、自由記述欄"></textarea>
 
-    <button type="submit">理念・目的・目標を生成</button>
+    <button type="submit">送信</button>
   </form>
-  <h2>生成された出力</h2>
-  <pre id="output"></pre>
 </body>
 </html>
