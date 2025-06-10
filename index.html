@@ -3,80 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>理念・目的・目標 自動生成ツール</title>
-  <style>
-    body { font-family: sans-serif; padding: 2em; max-width: 700px; margin: auto; }
-    label { display: block; margin: 1em 0 0.5em; font-weight: bold; }
-    select, textarea, button, input[type="checkbox"] { width: 100%; padding: 0.5em; font-size: 1em; margin-bottom: 1em; }
-    #result { margin-top: 2em; background: #f4f4f4; padding: 1em; border-radius: 8px; white-space: pre-wrap; }
-  </style>
+  <title>日本語学校の理念生成フォーム</title>
+  <script>
+    function generatePolicy() {
+      const keywords = document.getElementById("keywords").value;
+      const targetStudents = document.getElementById("targetStudents").value;
+      const futurePath = document.getElementById("futurePath").value;
+      const learningFocus = document.getElementById("learningFocus").value;
+      const regionRole = document.getElementById("regionRole").value;
+      const currentStructure = document.getElementById("currentStructure").value;
+      const idealStructure = document.getElementById("idealStructure").value;
+
+      let policyText = "【理念】\n";
+      policyText += `本校は「${keywords}」を大切にし、${targetStudents}を対象に、日本語教育を通じてその可能性を広げることを目指します。\n\n`;
+      policyText += "【目的】\n";
+      policyText += `${futurePath}を見据えた学習環境を提供し、学生一人ひとりの成長と社会参画を支援します。\n\n`;
+      policyText += "【教育目標】\n";
+      policyText += `${learningFocus}を重視した教育を行い、${regionRole}に貢献する人材を育成します。\n\n`;
+      policyText += "【現状と理想の体制ギャップ】\n";
+      policyText += `現状の体制は「${currentStructure}」であり、理想とする体制は「${idealStructure}」です。両者のギャップを踏まえ、段階的な改善を図ります。`;
+
+      document.getElementById("output").textContent = policyText;
+    }
+  </script>
 </head>
 <body>
-  <h1>理念・目的・目標 自動生成ツール</h1>
+  <h1>日本語学校の理念・目的・目標生成フォーム</h1>
+  <form onsubmit="event.preventDefault(); generatePolicy();">
+    <label>学校が大切にしているキーワード（自由記述）:<br>
+      <textarea id="keywords" rows="2" cols="60" placeholder="例：多様性、成長、信頼、安全"></textarea>
+    </label><br><br>
 
-  <label for="philosophy">教育理念（存在理由）</label>
-  <select id="philosophy">
-    <option value="多文化共生社会の実現">多文化共生社会の実現</option>
-    <option value="地域社会との共生">地域社会との共生</option>
-    <option value="国際的な人材の育成">国際的な人材の育成</option>
-    <option value="平和的な国際協力の推進">平和的な国際協力の推進</option>
-    <option value="持続可能な社会への貢献">持続可能な社会への貢献</option>
-  </select>
+    <label>対象とする学生像:<br>
+      <select id="targetStudents">
+        <option>地域定着を目指す留学生</option>
+        <option>進学を目指す学生</option>
+        <option>特定技能での就労を目指す外国人</option>
+        <option>社会での自立を目指す若者</option>
+        <option>母国との架け橋となる人材</option>
+        <option>その他</option>
+      </select>
+    </label><br><br>
 
-  <label for="purpose">教育目的（提供価値と進路）</label>
-  <select id="purpose">
-    <option value="非漢字圏学生に日本語力と進学スキルを提供">非漢字圏学生に日本語力と進学スキルを提供</option>
-    <option value="外国人学生に就職に必要な言語・文化能力を育成">外国人学生に就職に必要な言語・文化能力を育成</option>
-    <option value="地域に定着する人材としての土台形成">地域に定着する人材としての土台形成</option>
-    <option value="主体的に学び続ける態度を育成">主体的に学び続ける態度を育成</option>
-  </select>
+    <label>学生の卒業後の進路:<br>
+      <select id="futurePath">
+        <option>大学・専門学校等への進学</option>
+        <option>日本国内での就労</option>
+        <option>母国でのキャリア形成</option>
+        <option>地域貢献活動への参加</option>
+        <option>グローバルな活躍</option>
+      </select>
+    </label><br><br>
 
-  <label for="feature">教育の特色</label>
-  <select id="feature">
-    <option value="CEFR対応の4技能教育">CEFR対応の4技能教育</option>
-    <option value="地域との協働による学び">地域との協働による学び</option>
-    <option value="多国籍学生への分化対応指導">多国籍学生への分化対応指導</option>
-    <option value="初級からの会話重視指導">初級からの会話重視指導</option>
-    <option value="母語支援体制の整備">母語支援体制の整備</option>
-  </select>
+    <label>学習上重視するポイント:<br>
+      <select id="learningFocus">
+        <option>JLPTやEJU等の試験対策</option>
+        <option>実践的な会話力の向上</option>
+        <option>日本文化やマナーの理解</option>
+        <option>ビジネス日本語</option>
+        <option>専門分野の語彙・知識習得</option>
+      </select>
+    </label><br><br>
 
-  <label for="career">進路方針</label>
-  <select id="career">
-    <option value="大学・専門学校への進学">大学・専門学校への進学</option>
-    <option value="日本国内での就職">日本国内での就職</option>
-    <option value="地域社会での定着と活躍">地域社会での定着と活躍</option>
-    <option value="母国での就業・研究活動">母国での就業・研究活動</option>
-  </select>
+    <label>地域との関わりや役割:<br>
+      <select id="regionRole">
+        <option>地域社会との共生</option>
+        <option>地方創生への貢献</option>
+        <option>ボランティア活動の促進</option>
+        <option>地域企業との連携</option>
+        <option>国際交流の推進</option>
+      </select>
+    </label><br><br>
 
-  <label for="background">学生の主な出身国・背景</label>
-  <select id="background">
-    <option value="中国語圏（中国・台湾など）">中国語圏（中国・台湾など）</option>
-    <option value="東南アジア（ベトナム・タイ・インドネシアなど）">東南アジア（ベトナム・タイ・インドネシアなど）</option>
-    <option value="南アジア（ネパール・インドなど）">南アジア（ネパール・インドなど）</option>
-    <option value="中東・アフリカ圏">中東・アフリカ圏</option>
-    <option value="ヨーロッパ・アメリカ圏">ヨーロッパ・アメリカ圏</option>
-    <option value="非漢字圏全般">非漢字圏全般</option>
-  </select>
+    <label>現在の体制・リソース（自由記述）:<br>
+      <textarea id="currentStructure" rows="2" cols="60" placeholder="例：教員3名、進路担当1名、地域との連携なし"></textarea>
+    </label><br><br>
 
-  <label for="goalLevel">目標到達レベル（CEFR）</label>
-  <select id="goalLevel">
-    <option value="A2">A2</option>
-    <option value="B1">B1</option>
-    <option value="B2">B2</option>
-    <option value="C1">C1</option>
-  </select>
+    <label>理想とする体制・リソース（自由記述）:<br>
+      <textarea id="idealStructure" rows="2" cols="60" placeholder="例：教員5名、キャリア支援担当常駐、地元NPOとの連携体制"></textarea>
+    </label><br><br>
 
-  <label>重点目標分野（複数選択可）</label>
-  <label><input type="checkbox" name="focus" value="語学"> 語学（文法・語彙・読解など）</label>
-  <label><input type="checkbox" name="focus" value="コンピテンシー"> コンピテンシー（実践・論理力・プレゼン等）</label>
-  <label><input type="checkbox" name="focus" value="社会参加"> 社会参加（地域交流・協働など）</label>
-  <label><input type="checkbox" name="focus" value="学術的発信"> 学術的発信（レポート・論文・ディスカッション）</label>
-
-  <label for="keywords">学校が大事にしているキーワード（自由記述）</label>
-  <textarea id="keywords" rows="3" placeholder="例：主体性、多様性、挑戦、協働など"></textarea>
-
-  <button onclick="generateText()">理念・目的・目標・体制ギャップを生成</button>
-
-  <div id="result"></div>
+    <button type="submit">理念・目的・目標を生成</button>
+  </form>
+  <h2>生成された出力</h2>
+  <pre id="output"></pre>
 </body>
 </html>
