@@ -1,78 +1,1200 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>日本語学校設計フォーム</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
-    h1 { color: #3d79d5; }
-    label { display: block; margin-top: 10px; }
-    textarea, input[type="text"], select { width: 100%; padding: 8px; margin-top: 5px; }
-    .checkbox-group { margin-top: 10px; }
-    .checkbox-group label { display: inline-block; margin-right: 10px; }
-    button { margin-top: 20px; padding: 10px 20px; background-color: #3d79d5; color: white; border: none; cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本語学校設立に関するアンケート</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        h1 {
+            color: #0056b3;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: #0056b3;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-left: 5px solid #007bff;
+        }
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        legend {
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding: 0 5px;
+            color: #007bff;
+            border-bottom: 1px solid #eee;
+            display: block; /* legend elements are block by default, but good to be explicit */
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        }
+        .form-group label {
+            margin-right: 15px;
+            min-width: 180px; /* Adjust label width */
+            flex-shrink: 0; /* Prevent label from shrinking */
+        }
+        .form-group input[type="checkbox"] {
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea {
+            flex-grow: 1; /* Allow inputs to take available space */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box; /* Include padding and border in the element's total width */
+            min-width: 150px; /* Minimum width for inputs */
+        }
+        .form-group textarea {
+            min-height: 100px; /* Increase textarea height */
+            resize: vertical; /* Allow vertical resize */
+        }
+        .other-text, .linked-text {
+             /* Styles for specific linked text inputs */
+             margin-left: 15px;
+             flex-grow: 0; /* Don't grow like main inputs */
+             width: auto; /* Auto width based on content/placeholder */
+             min-width: 120px; /* Min width */
+        }
+         .number-input {
+             width: 80px; /* Fixed width for number inputs */
+             margin-left: 15px;
+             flex-grow: 0;
+         }
+        .unit {
+            margin-left: 5px;
+            flex-shrink: 0;
+        }
+        .buttons {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        #saveButton {
+            background-color: #ffc107;
+            color: #333;
+        }
+        #saveButton:hover {
+            background-color: #e0a800;
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+        }
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+         .fieldset-description {
+             margin-top: -10px; /* Adjust margin to be closer to legend */
+             margin-bottom: 15px;
+             color: #555;
+             font-size: 0.9em;
+             padding-left: 5px;
+         }
+    </style>
 </head>
 <body>
-  <h1>日本語学校設計フォーム</h1>
-  <form id="schoolForm">
 
-    <label>想定する学生の出身国・地域（複数選択可）:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="nationality" value="ネパール">ネパール</label>
-      <label><input type="checkbox" name="nationality" value="ベトナム">ベトナム</label>
-      <label><input type="checkbox" name="nationality" value="中国">中国</label>
-      <label><input type="checkbox" name="nationality" value="ミャンマー">ミャンマー</label>
-      <label><input type="checkbox" name="nationality" value="スリランカ">スリランカ</label>
-      <label><input type="checkbox" name="nationality" value="その他">その他</label>
-    </div>
+    <h1>日本語学校設立に関するアンケート</h1>
+    <p>以下の項目についてご回答ください。入力内容はブラウザに一時保存されます（同じブラウザ、同じPCでのアクセス時のみ有効）。</p>
 
-    <label>卒業後の進路（複数選択可）:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="career" value="進学（大学院・大学）">進学（大学院・大学）</label>
-      <label><input type="checkbox" name="career" value="進学（専門学校）">進学（専門学校）</label>
-      <label><input type="checkbox" name="career" value="就職（技人国）">就職（技人国）</label>
-      <label><input type="checkbox" name="career" value="就職（特定技能）">就職（特定技能）</label>
-      <label><input type="checkbox" name="career" value="その他">その他</label>
-    </div>
+    <form id="japaneseSchoolForm">
 
-    <label>卒業時に目指す日本語力（複数選択可／JF参照枠）:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="level" value="A1">A1</label>
-      <label><input type="checkbox" name="level" value="A2">A2</label>
-      <label><input type="checkbox" name="level" value="B1">B1</label>
-      <label><input type="checkbox" name="level" value="B2">B2</label>
-      <label><input type="checkbox" name="level" value="C1">C1</label>
-      <label><input type="checkbox" name="level" value="C2">C2</label>
-    </div>
+        <section>
+            <h2>1. 日本語学校への想い</h2>
 
-    <label>入学時期（複数選択可）:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="admission" value="4月">4月</label>
-      <label><input type="checkbox" name="admission" value="10月">10月</label>
-      <label><input type="checkbox" name="admission" value="その他">その他</label>
-    </div>
+            <fieldset>
+                <legend>学校を設立しようと思ったきっかけ（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="intent_support_foreigners" name="intent[]" value="外国人材の支援がしたいと思った">
+                    <label for="intent_support_foreigners">外国人材の支援がしたいと思った</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="intent_support_students" name="intent[]" value="留学生の進路や生活を支援したいと思った">
+                    <label for="intent_support_students">留学生の進路や生活を支援したいと思った</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="intent_regional" name="intent[]" value="地域活性化・地方創生に貢献したいと思った">
+                    <label for="intent_regional">地域活性化・地方創生に貢献したいと思った</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="intent_social_education" name="intent[]" value="社会貢献として教育事業に興味があった">
+                    <label for="intent_social_education">社会貢献として教育事業に興味があった</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="intent_background" name="intent[]" value="自身・家族のバックグラウンドに関係がある">
+                    <label for="intent_background">自身・家族のバックグラウンドに関係がある</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="intent_synergy" name="intent[]" value="自社の既存事業とのシナジーを感じた">
+                    <label for="intent_synergy">自社の既存事業とのシナジーを感じた</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="intent_education_interest" name="intent[]" value="元々教育に関心があった">
+                    <label for="intent_education_interest">元々教育に関心があった</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="intent_foreigner_contact" name="intent[]" value="外国人との関わりが増えていた">
+                    <label for="intent_foreigner_contact">外国人との関わりが増えていた</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="intent_local_government" name="intent[]" value="行政・自治体からの誘致があった">
+                    <label for="intent_local_government">行政・自治体からの誘致があった</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="intent_business_chance" name="intent[]" value="ビジネスチャンスと感じた">
+                    <label for="intent_business_chance">ビジネスチャンスと感じた</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="intent_other_chk" name="intent[]" value="その他">
+                    <label for="intent_other_chk">その他</label>
+                    <input type="text" id="intent_other_text" name="intent_other_text" class="other-text">
+                </div>
+            </fieldset>
 
-    <label>学校を設立しようと思った理由（複数選択可＋自由記述）:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="reason" value="人材育成">自社で活躍する人材を育成したい</label>
-      <label><input type="checkbox" name="reason" value="事業多角化">事業の多角化の一環として</label>
-      <label><input type="checkbox" name="reason" value="不動産活用">土地や建物を活用したい</label>
-      <label><input type="checkbox" name="reason" value="地域貢献">地域に貢献したい</label>
-    </div>
-    <textarea name="reason_free" placeholder="その他、自由記述欄"></textarea>
+            <fieldset>
+                <legend>設立に至った背景（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="background_company" name="background[]" value="外国人材を受け入れている企業を運営している">
+                    <label for="background_company">外国人材を受け入れている企業を運営している</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="background_group" name="background[]" value="海外との取引や拠点がある企業グループに属している">
+                    <label for="background_group">海外との取引や拠点がある企業グループに属している</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="background_npo" name="background[]" value="留学生の支援団体・NPOを運営している">
+                    <label for="background_npo">留学生の支援団体・NPOを運営している</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="background_education_exp" name="background[]" value="学習塾・専門学校・大学など教育機関の運営経験がある">
+                    <label for="background_education_exp">学習塾・専門学校・大学など教育機関の運営経験がある</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="background_regional_problem" name="background[]" value="地域の課題（人口減、働き手不足）を解決したい">
+                    <label for="background_regional_problem">地域の課題（人口減、働き手不足）を解決したい</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="background_local_support" name="background[]" value="自治体からの支援があった">
+                    <label for="background_local_support">自治体からの支援があった</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="background_other_chk" name="background[]" value="その他">
+                    <label for="background_other_chk">その他</label>
+                    <input type="text" id="background_other_text" name="background_other_text" class="other-text">
+                </div>
+            </fieldset>
 
-    <label>学校で実現したいこと・思い（複数選択可＋自由記述）:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="vision" value="共生社会">外国人が活躍できる共生社会の実現</label>
-      <label><input type="checkbox" name="vision" value="地域貢献">地域活性化に寄与したい</label>
-      <label><input type="checkbox" name="vision" value="教育の質">質の高い教育を提供したい</label>
-      <label><input type="checkbox" name="vision" value="夢の支援">留学生の夢を応援したい</label>
-    </div>
-    <textarea name="vision_free" placeholder="その他、自由記述欄"></textarea>
+             <fieldset>
+                <legend>日本語学校が社会に果たすべき役割（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="role_bridge" name="role[]" value="外国人と日本社会の橋渡し">
+                    <label for="role_bridge">外国人と日本社会の橋渡し</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="role_student_support" name="role[]" value="留学生の生活支援・進学支援">
+                    <label for="role_student_support">留学生の生活支援・進学支援</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="role_multicultural" name="role[]" value="多文化共生の推進">
+                    <label for="role_multicultural">多文化共生の推進</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="role_labor_shortage" name="role[]" value="地域人材不足の解決">
+                    <label for="role_labor_shortage">地域人材不足の解決</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="role_education_gap" name="role[]" value="教育格差の解消">
+                    <label for="role_education_gap">教育格差の解消</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="role_career_support" name="role[]" value="外国人のキャリア形成支援">
+                    <label for="role_career_support">外国人のキャリア形成支援</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="role_mutual_understanding" name="role[]" value="国際的な相互理解の促進">
+                    <label for="role_mutual_understanding">国際的な相互理解の促進</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="role_higher_education" name="role[]" value="高等教育や就職へのステップ">
+                    <label for="role_higher_education">高等教育や就職へのステップ</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="role_other_chk" name="role[]" value="その他">
+                    <label for="role_other_chk">その他</label>
+                    <input type="text" id="role_other_text" name="role_other_text" class="other-text">
+                </div>
+            </fieldset>
 
-    <button type="submit">送信</button>
-  </form>
+            <fieldset>
+                <legend>外国人へどのような支援・サポートをしたいか（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="support_learning" name="support[]" value="学習支援（日本語教育）">
+                    <label for="support_learning">学習支援（日本語教育）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_living" name="support[]" value="生活支援（住まい・健康・相談）">
+                    <label for="support_living">生活支援（住まい・健康・相談）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_career" name="support[]" value="進学・就職支援">
+                    <label for="support_career">進学・就職支援</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_psychological" name="support[]" value="心理的ケア・相談">
+                    <label for="support_psychological">心理的ケア・相談</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_culture" name="support[]" value="日本文化理解の機会提供">
+                    <label for="support_culture">日本文化理解の機会提供</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_visa_legal" name="support[]" value="在留資格や法律面の支援">
+                    <label for="support_visa_legal">在留資格や法律面の支援</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_family" name="support[]" value="家族のサポート（帯同家族等）">
+                    <label for="support_family">家族のサポート（帯同家族等）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_community" name="support[]" value="地域とのつながりの構築">
+                    <label for="support_community">地域とのつながりの構築</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_tokutei_kodo" name="support[]" value="特定技能や高度人材への橋渡し">
+                    <label for="support_tokutei_kodo">特定技能や高度人材への橋渡し</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="support_other_chk" name="support[]" value="その他">
+                    <label for="support_other_chk">その他</label>
+                    <input type="text" id="support_other_text" name="support_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>他の教育機関ではなくなぜ日本語学校なのか（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="why_nihongo_language_barrier" name="why_nihongo[]" value="日本語が第一のハードルになるから">
+                    <label for="why_nihongo_language_barrier">日本語が第一のハードルになるから</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="why_nihongo_first_contact" name="why_nihongo[]" value="留学生の最初の受け入れ先だから">
+                    <label for="why_nihongo_first_contact">留学生の最初の受け入れ先だから</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="why_nihongo_social_contact" name="why_nihongo[]" value="社会との接点が密接だから">
+                    <label for="why_nihongo_social_contact">社会との接点が密接だから</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="why_nihongo_integrated" name="why_nihongo[]" value="教育と生活支援が一体だから">
+                    <label for="why_nihongo_integrated">教育と生活支援が一体だから</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="why_nihongo_autonomous" name="why_nihongo[]" value="自律的成長を支援できるから">
+                    <label for="why_nihongo_autonomous">自律的成長を支援できるから</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="why_nihongo_independent" name="why_nihongo[]" value="制度的に独立した運営がしやすいから">
+                    <label for="why_nihongo_independent">制度的に独立した運営がしやすいから</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="why_nihongo_originality" name="why_nihongo[]" value="独自の教育方針が反映できるから">
+                    <label for="why_nihongo_originality">独自の教育方針が反映できるから</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="why_nihongo_other_chk" name="why_nihongo[]" value="その他">
+                    <label for="why_nihongo_other_chk">その他</label>
+                    <input type="text" id="why_nihongo_other_text" name="why_nihongo_other_text" class="other-text">
+                </div>
+            </fieldset>
+        </section>
+
+        <section>
+            <h2>2. 学生の属性</h2>
+
+            <fieldset>
+                <legend>年齢（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="age_highschool" name="age[]" value="高卒（18歳～20歳）">
+                    <label for="age_highschool">高卒（18歳～20歳）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="age_university" name="age[]" value="大卒以上（22歳～）">
+                    <label for="age_university">大卒以上（22歳～）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="age_other_chk" name="age[]" value="その他">
+                    <label for="age_other_chk">その他</label>
+                    <input type="text" id="age_other_text" name="age_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>母語（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_nepali" name="mother_tongue[]" value="ネパール語">
+                    <label for="mother_tongue_nepali">ネパール語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_vietnamese" name="mother_tongue[]" value="ベトナム語">
+                    <label for="mother_tongue_vietnamese">ベトナム語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_chinese" name="mother_tongue[]" value="中国語">
+                    <label for="mother_tongue_chinese">中国語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_korean" name="mother_tongue[]" value="韓国語">
+                    <label for="mother_tongue_korean">韓国語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_myanmar" name="mother_tongue[]" value="ミャンマー語">
+                    <label for="mother_tongue_myanmar">ミャンマー語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_mongolian" name="mother_tongue[]" value="モンゴル語">
+                    <label for="mother_tongue_mongolian">モンゴル語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_indonesian" name="mother_tongue[]" value="インドネシア語">
+                    <label for="mother_tongue_indonesian">インドネシア語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_thai" name="mother_tongue[]" value="タイ語">
+                    <label for="mother_tongue_thai">タイ語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_russian" name="mother_tongue[]" value="ロシア語">
+                    <label for="mother_tongue_russian">ロシア語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_english" name="mother_tongue[]" value="英語">
+                    <label for="mother_tongue_english">英語</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="mother_tongue_other_chk" name="mother_tongue[]" value="その他（記述）">
+                    <label for="mother_tongue_other_chk">その他（記述）</label>
+                    <input type="text" id="mother_tongue_other_text" name="mother_tongue_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>学歴（複数選択可）</legend>
+                 <div class="form-group">
+                    <input type="checkbox" id="education_highschool" name="education[]" value="高校卒業">
+                    <label for="education_highschool">高校卒業</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="education_kosen" name="education[]" value="高等専門学校卒業">
+                    <label for="education_kosen">高等専門学校卒業</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="education_university_dropout" name="education[]" value="短大・大学中退">
+                    <label for="education_university_dropout">短大・大学中退</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="education_university_grad" name="education[]" value="大学卒業">
+                    <label for="education_university_grad">大学卒業</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="education_graduate_school" name="education[]" value="大学院卒業">
+                    <label for="education_graduate_school">大学院卒業</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="education_senshu" name="education[]" value="専門学校卒業">
+                    <label for="education_senshu">専門学校卒業</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="education_none" name="education[]" value="無学歴・非正規教育">
+                    <label for="education_none">無学歴・非正規教育</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="education_other_chk" name="education[]" value="その他">
+                    <label for="education_other_chk">その他</label>
+                    <input type="text" id="education_other_text" name="education_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>出身国（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="country_nepal" name="country[]" value="ネパール">
+                    <label for="country_nepal">ネパール</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_vietnam" name="country[]" value="ベトナム">
+                    <label for="country_vietnam">ベトナム</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_china" name="country[]" value="中国">
+                    <label for="country_china">中国</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_myanmar" name="country[]" value="ミャンマー">
+                    <label for="country_myanmar">ミャンマー</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_sri_lanka" name="country[]" value="スリランカ">
+                    <label for="country_sri_lanka">スリランカ</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_mongolia" name="country[]" value="モンゴル">
+                    <label for="country_mongolia">モンゴル</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_bangladesh" name="country[]" value="バングラデシュ">
+                    <label for="country_bangladesh">バングラデシュ</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_philippines" name="country[]" value="フィリピン">
+                    <label for="country_philippines">フィリピン</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_india" name="country[]" value="インド">
+                    <label for="country_india">インド</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_other_asia" name="country[]" value="その他アジア">
+                    <label for="country_other_asia">その他アジア</label>
+                 </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="country_europe_us" name="country[]" value="欧米">
+                    <label for="country_europe_us">欧米</label>
+                 </div>
+                  <div class="form-group">
+                    <input type="checkbox" id="country_middle_africa" name="country[]" value="中東・アフリカ">
+                    <label for="country_middle_africa">中東・アフリカ</label>
+                 </div>
+                  <div class="form-group">
+                    <input type="checkbox" id="country_latin_america" name="country[]" value="中南米">
+                    <label for="country_latin_america">中南米</label>
+                 </div>
+                  <div class="form-group">
+                    <input type="checkbox" id="country_other_chk" name="country[]" value="その他">
+                    <label for="country_other_chk">その他</label>
+                    <input type="text" id="country_other_text" name="country_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>卒業後の進路（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="career_path_univ" name="career_path[]" value="進学（大学）">
+                    <label for="career_path_univ">進学（大学）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_path_grad" name="career_path[]" value="進学（大学院）">
+                    <label for="career_path_grad">進学（大学院）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_path_senshu" name="career_path[]" value="進学（専門学校）">
+                    <label for="career_path_senshu">進学（専門学校）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_path_job_gijinkoku" name="career_path[]" value="就職（技人国）">
+                    <label for="career_path_job_gijinkoku">就職（技人国）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_path_job_tokutei" name="career_path[]" value="就職（特定技能）">
+                    <label for="career_path_job_tokutei">就職（特定技能）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_path_job_other_visa" name="career_path[]" value="就職（その他の在留資格）">
+                    <label for="career_path_job_other_visa">就職（その他の在留資格）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_path_return" name="career_path[]" value="帰国">
+                    <label for="career_path_return">帰国</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_path_undecided" name="career_path[]" value="未定／支援予定">
+                    <label for="career_path_undecided">未定／支援予定</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_path_other_chk" name="career_path[]" value="その他">
+                    <label for="career_path_other_chk">その他</label>
+                    <input type="text" id="career_path_other_text" name="career_path_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>入学時の日本語能力（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="japanese_level_n5_under" name="japanese_level[]" value="JLPT N5程度以下">
+                    <label for="japanese_level_n5_under">JLPT N5程度以下</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="japanese_level_n4" name="japanese_level[]" value="JLPT N4程度">
+                    <label for="japanese_level_n4">JLPT N4程度</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="japanese_level_n3" name="japanese_level[]" value="JLPT N3程度">
+                    <label for="japanese_level_n3">JLPT N3程度</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="japanese_level_n2_over" name="japanese_level[]" value="JLPT N2以上">
+                    <label for="japanese_level_n2_over">JLPT N2以上</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="japanese_level_not_taken" name="japanese_level[]" value="未受験（150時間の自己学習）">
+                    <label for="japanese_level_not_taken">未受験（150時間の自己学習）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="japanese_level_speaking_ok" name="japanese_level[]" value="会話はできるが読み書きに不安">
+                    <label for="japanese_level_speaking_ok">会話はできるが読み書きに不安</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="japanese_level_beginner" name="japanese_level[]" value="文字・発音から学習が必要">
+                    <label for="japanese_level_beginner">文字・発音から学習が必要</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="japanese_level_other_chk" name="japanese_level[]" value="その他">
+                    <label for="japanese_level_other_chk">その他</label>
+                    <input type="text" id="japanese_level_other_text" name="japanese_level_other_text" class="other-text">
+                </div>
+            </fieldset>
+        </section>
+
+        <section>
+            <h2>3. 育てたい学生像</h2>
+
+            <fieldset>
+                <legend>何ができていてほしいか？（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="student_skills_daily_comm" name="student_skills[]" value="日常会話が不自由なくできる">
+                    <label for="student_skills_daily_comm">日常会話が不自由なくできる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_academic" name="student_skills[]" value="アカデミックな読解・作文力がある">
+                    <label for="student_skills_academic">アカデミックな読解・作文力がある</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_exam" name="student_skills[]" value="大学受験・大学院受験ができる">
+                    <label for="student_skills_exam">大学受験・大学院受験ができる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_work_basic" name="student_skills[]" value="職場での基本的なコミュニケーションが取れる">
+                    <label for="student_skills_work_basic">職場での基本的なコミュニケーションが取れる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_work_express" name="student_skills[]" value="職場で自分の意見・考えを伝えることができる">
+                    <label for="student_skills_work_express">職場で自分の意見・考えを伝えることができる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_self_manage" name="student_skills[]" value="自分で生活を管理できる">
+                    <label for="student_skills_self_manage">自分で生活を管理できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_cooperate" name="student_skills[]" value="周囲と協調しながら行動できる">
+                    <label for="student_skills_cooperate">周囲と協調しながら行動できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_culture_manner" name="student_skills[]" value="日本文化・マナーを理解している">
+                    <label for="student_skills_culture_manner">日本文化・マナーを理解している</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_career_plan" name="student_skills[]" value="自分のキャリアを考えられる">
+                    <label for="student_skills_career_plan">自分のキャリアを考えられる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="student_skills_other_chk" name="student_skills[]" value="その他">
+                    <label for="student_skills_other_chk">その他</label>
+                    <input type="text" id="student_skills_other_text" name="student_skills_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>日本語力の目安（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="target_japanese_n2_over" name="target_japanese_level[]" value="JLPT N2以上">
+                    <label for="target_japanese_n2_over">JLPT N2以上</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_japanese_n3_over" name="target_japanese_level[]" value="JLPT N3以上">
+                    <label for="target_japanese_n3_over">JLPT N3以上</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_japanese_eju" name="target_japanese_level[]" value="EJU 200点以上（読解）">
+                    <label for="target_japanese_eju">EJU 200点以上（読解）</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_japanese_cefrc1" name="target_japanese_level[]" value="CEFR C1">
+                    <label for="target_japanese_cefrc1">CEFR C1</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_japanese_cefrb2" name="target_japanese_level[]" value="CEFR B2">
+                    <label for="target_japanese_cefrb2">CEFR B2</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_japanese_cefrb1" name="target_japanese_level[]" value="CEFR B1">
+                    <label for="target_japanese_cefrb1">CEFR B1</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_japanese_cefra2" name="target_japanese_level[]" value="CEFR A2程度でも可">
+                    <label for="target_japanese_cefra2">CEFR A2程度でも可</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_japanese_specialized" name="target_japanese_level[]" value="日本語能力に加えて専門語彙が必要">
+                    <label for="target_japanese_specialized">日本語能力に加えて専門語彙が必要</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_japanese_other_chk" name="target_japanese_level[]" value="その他">
+                    <label for="target_japanese_other_chk">その他</label>
+                    <input type="text" id="target_japanese_other_text" name="target_japanese_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>コミュニケーション力の目安（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="target_comm_greeting" name="target_comm_level[]" value="あいさつや報連相ができる">
+                    <label for="target_comm_greeting">あいさつや報連相ができる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_comm_phone_email" name="target_comm_level[]" value="電話・メールでやりとりができる">
+                    <label for="target_comm_phone_email">電話・メールでやりとりができる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_comm_student_talk" name="target_comm_level[]" value="他の学生と日本語で会話ができる">
+                    <label for="target_comm_student_talk">他の学生と日本語で会話ができる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_comm_express_opinion" name="target_comm_level[]" value="日本人に自分の意見・考えを伝えることができる">
+                    <label for="target_comm_express_opinion">日本人に自分の意見・考えを伝えることができる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_comm_work_rule" name="target_comm_level[]" value="職場のルールや習慣を理解できる">
+                    <label for="target_comm_work_rule">職場のルールや習慣を理解できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_comm_teamwork" name="target_comm_level[]" value="チームでの作業に参加できる">
+                    <label for="target_comm_teamwork">チームでの作業に参加できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_comm_interview" name="target_comm_level[]" value="面接で自分のことを話せる">
+                    <label for="target_comm_interview">面接で自分のことを話せる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_comm_other_chk" name="target_comm_level[]" value="その他">
+                    <label for="target_comm_other_chk">その他</label>
+                    <input type="text" id="target_comm_other_text" name="target_comm_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>自律性のレベル（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="target_autonomy_self_manage" name="target_autonomy_level[]" value="出欠・課題・生活を自己管理できる">
+                    <label for="target_autonomy_self_manage">出欠・課題・生活を自己管理できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_autonomy_consult" name="target_autonomy_level[]" value="困ったときに相談できる">
+                    <label for="target_autonomy_consult">困ったときに相談できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_autonomy_proactive" name="target_autonomy_level[]" value="学びに対して能動的である">
+                    <label for="target_autonomy_proactive">学びに対して能動的である</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_autonomy_clear_goal" name="target_autonomy_level[]" value="自分の目的を明確に持っている">
+                    <label for="target_autonomy_clear_goal">自分の目的を明確に持っている</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_autonomy_other_chk" name="target_autonomy_level[]" value="その他">
+                    <label for="target_autonomy_other_chk">その他</label>
+                    <input type="text" id="target_autonomy_other_text" name="target_autonomy_other_text" class="other-text">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>文化理解のレベル（複数選択可）</legend>
+                <div class="form-group">
+                    <input type="checkbox" id="target_culture_lifestyle" name="target_culture_level[]" value="生活習慣やマナーに適応できる">
+                    <label for="target_culture_lifestyle">生活習慣やマナーに適応できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_culture_respect" name="target_culture_level[]" value="相手の立場を尊重する姿勢がある">
+                    <label for="target_culture_respect">相手の立場を尊重する姿勢がある</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_culture_difference" name="target_culture_level[]" value="宗教・文化の違いを理解して対応できる">
+                    <label for="target_culture_difference">宗教・文化の違いを理解して対応できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_culture_participation" name="target_culture_level[]" value="地域行事やボランティアに参加できる">
+                    <label for="target_culture_participation">地域行事やボランティアに参加できる</label>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="target_culture_other_chk" name="target_culture_level[]" value="その他">
+                    <label for="target_culture_other_chk">その他</label>
+                    <input type="text" id="target_culture_other_text" name="target_culture_other_text" class="other-text">
+                </div>
+            </fieldset>
+        </section>
+
+        <section>
+            <h2>4. 学校の独自性</h2>
+             <fieldset>
+                <legend>学校の独自性（複数選択可、補足記述可）</legend>
+                 <div class="form-group">
+                    <input type="checkbox" id="uniqueness_career_chk" name="uniqueness[]" value="進学実績／就職支援に強み">
+                    <label for="uniqueness_career_chk">進学実績／就職支援に強み</label>
+                    <input type="text" id="uniqueness_career_text" name="uniqueness_career_text" class="linked-text" placeholder="補足">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="uniqueness_plus_alpha_chk" name="uniqueness[]" value="日本語＋αの教育（ICT、ビジネスマナー等）">
+                    <label for="uniqueness_plus_alpha_chk">日本語＋αの教育（ICT、ビジネスマナー等）</label>
+                    <input type="text" id="uniqueness_plus_alpha_text" name="uniqueness_plus_alpha_text" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="uniqueness_community_chk" name="uniqueness[]" value="地域連携型／地域密着型">
+                    <label for="uniqueness_community_chk">地域連携型／地域密着型</label>
+                    <input type="text" id="uniqueness_community_text" name="uniqueness_community_text" class="linked-text" placeholder="具体的な活動内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="uniqueness_multicultural_chk" name="uniqueness[]" value="多国籍対応／多文化支援が充実">
+                    <label for="uniqueness_multicultural_chk">多国籍対応／多文化支援が充実</label>
+                    <input type="text" id="uniqueness_multicultural_text" name="uniqueness_multicultural_text" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="uniqueness_specific_chk" name="uniqueness[]" value="特定の国・分野に特化">
+                    <label for="uniqueness_specific_chk">特定の国・分野に特化</label>
+                    <input type="text" id="uniqueness_specific_text" name="uniqueness_specific_text" class="linked-text" placeholder="国名・分野">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="uniqueness_dormitory_chk" name="uniqueness[]" value="寮完備／生活支援が手厚い">
+                    <label for="uniqueness_dormitory_chk">寮完備／生活支援が手厚い</label>
+                    <input type="text" id="uniqueness_dormitory_text" name="uniqueness_dormitory_text" class="linked-text" placeholder="具体的な支援内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="uniqueness_teacher_quality_chk" name="uniqueness[]" value="教員の質／研修体制に注力">
+                    <label for="uniqueness_teacher_quality_chk">教員の質／研修体制に注力</label>
+                    <input type="text" id="uniqueness_teacher_quality_text" name="uniqueness_teacher_quality_text" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="uniqueness_tokutei_connection_chk" name="uniqueness[]" value="特定技能など実務教育との接続">
+                    <label for="uniqueness_tokutei_connection_chk">特定技能など実務教育との接続</label>
+                    <input type="text" id="uniqueness_tokutei_connection_text" name="uniqueness_tokutei_connection_text" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="uniqueness_career_education_chk" name="uniqueness[]" value="キャリア教育の導入">
+                    <label for="uniqueness_career_education_chk">キャリア教育の導入</label>
+                    <input type="text" id="uniqueness_career_education_text" name="uniqueness_career_education_text" class="linked-text" placeholder="具体的な内容">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="uniqueness_other_chk" name="uniqueness[]" value="その他">
+                    <label for="uniqueness_other_chk">その他</label>
+                    <input type="text" id="uniqueness_other_text" name="uniqueness_other_text" class="other-text">
+                </div>
+             </fieldset>
+        </section>
+
+         <section>
+            <h2>5. 学校の現状</h2>
+
+            <fieldset>
+                <legend>教員の数</legend>
+                <div class="form-group">
+                    <label for="teachers_fulltime">常勤：</label>
+                    <input type="number" id="teachers_fulltime" name="teachers_fulltime" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <label for="teachers_parttime">非常勤：</label>
+                    <input type="number" id="teachers_parttime" name="teachers_parttime" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>教員の経験年数（分類）</legend>
+                <p class="fieldset-description">（該当人数を記入してください）</p>
+                 <div class="form-group">
+                    <label for="teacher_exp_under1">1年未満：</label>
+                    <input type="number" id="teacher_exp_under1" name="teacher_exp_under1" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <label for="teacher_exp_1to3">1〜3年：</label>
+                    <input type="number" id="teacher_exp_1to3" name="teacher_exp_1to3" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <label for="teacher_exp_3to5">3〜5年：</label>
+                    <input type="number" id="teacher_exp_3to5" name="teacher_exp_3to5" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                 <div class="form-group">
+                    <label for="teacher_exp_over5">5年以上：</label>
+                    <input type="number" id="teacher_exp_over5" name="teacher_exp_over5" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>教員の指導経験</legend>
+                 <p class="fieldset-description">（複数選択可、該当人数を記入してください）</p>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_univ_chk" name="teacher_instruction[]" value="進学（大学）">
+                    <label for="teacher_inst_univ_chk">進学（大学）：</label>
+                    <input type="number" id="teacher_inst_univ_num" name="teacher_instruction_num_univ" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_senshu_chk" name="teacher_instruction[]" value="進学（専門）">
+                    <label for="teacher_inst_senshu_chk">進学（専門）：</label>
+                    <input type="number" id="teacher_inst_senshu_num" name="teacher_instruction_num_senshu" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_job_gijin_chk" name="teacher_instruction[]" value="就職支援（技人国）">
+                    <label for="teacher_inst_job_gijin_chk">就職支援（技人国）：</label>
+                    <input type="number" id="teacher_inst_job_gijin_num" name="teacher_instruction_num_gijin" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_job_tokutei_chk" name="teacher_instruction[]" value="就職支援（特定技能）">
+                    <label for="teacher_inst_job_tokutei_chk">就職支援（特定技能）：</label>
+                    <input type="number" id="teacher_inst_job_tokutei_num" name="teacher_instruction_num_tokutei" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_beginner_chk" name="teacher_instruction[]" value="初級者対応">
+                    <label for="teacher_inst_beginner_chk">初級者対応：</label>
+                    <input type="number" id="teacher_inst_beginner_num" name="teacher_instruction_num_beginner" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_multinational_chk" name="teacher_instruction[]" value="多国籍クラス対応">
+                    <label for="teacher_inst_multinational_chk">多国籍クラス対応</label>
+                     <!-- 人数入力欄はリストになかったため追加しない -->
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_kanji_chk" name="teacher_instruction[]" value="漢字圏対応">
+                    <label for="teacher_inst_kanji_chk">漢字圏対応：</label>
+                    <input type="number" id="teacher_inst_kanji_num" name="teacher_instruction_num_kanji" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_nonkanji_chk" name="teacher_instruction[]" value="非漢字圏対応">
+                    <label for="teacher_inst_nonkanji_chk">非漢字圏対応：</label>
+                    <input type="number" id="teacher_inst_nonkanji_num" name="teacher_instruction_num_nonkanji" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="teacher_inst_other_chk" name="teacher_instruction[]" value="その他">
+                    <label for="teacher_inst_other_chk">その他：</label>
+                    <input type="text" id="teacher_inst_other_text" name="teacher_instruction_other_text" class="linked-text" placeholder="経験内容">
+                    <input type="number" id="teacher_inst_other_num" name="teacher_instruction_num_other" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>生活指導担当者の数</legend>
+                 <div class="form-group">
+                    <label for="support_staff_fulltime">専任：</label>
+                    <input type="number" id="support_staff_fulltime" name="support_staff_fulltime" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+                 <div class="form-group">
+                    <label for="support_staff_parttime">兼任：</label>
+                    <input type="number" id="support_staff_parttime" name="support_staff_parttime" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>母語対応可能な言語・対応人数</legend>
+                <p class="fieldset-description">（対応可能な言語にチェックを入れ、人数を記入してください）</p>
+                 <div class="form-group">
+                    <input type="checkbox" id="lang_support_nepali_chk" name="lang_support[]" value="ネパール">
+                    <label for="lang_support_nepali_chk">ネパール：</label>
+                    <input type="number" id="lang_support_nepali_num" name="lang_support_num_nepali" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="lang_support_vietnamese_chk" name="lang_support[]" value="ベトナム">
+                    <label for="lang_support_vietnamese_chk">ベトナム：</label>
+                    <input type="number" id="lang_support_vietnamese_num" name="lang_support_num_vietnamese" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="lang_support_chinese_chk" name="lang_support[]" value="中国">
+                    <label for="lang_support_chinese_chk">中国：</label>
+                    <input type="number" id="lang_support_chinese_num" name="lang_support_num_chinese" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="lang_support_myanmar_chk" name="lang_support[]" value="ミャンマー">
+                    <label for="lang_support_myanmar_chk">ミャンマー：</label>
+                    <input type="number" id="lang_support_myanmar_num" name="lang_support_num_myanmar" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="lang_support_srilanka_chk" name="lang_support[]" value="スリランカ">
+                    <label for="lang_support_srilanka_chk">スリランカ：</label>
+                    <input type="number" id="lang_support_srilanka_num" name="lang_support_num_srilanka" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="lang_support_mongolian_chk" name="lang_support[]" value="モンゴル">
+                    <label for="lang_support_mongolian_chk">モンゴル：</label>
+                    <input type="number" id="lang_support_mongolian_num" name="lang_support_num_mongolian" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="lang_support_bangladesh_chk" name="lang_support[]" value="バングラデシュ">
+                    <label for="lang_support_bangladesh_chk">バングラデシュ：</label>
+                    <input type="number" id="lang_support_bangladesh_num" name="lang_support_num_bangladesh" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                <div class="form-group">
+                    <input type="checkbox" id="lang_support_english_chk" name="lang_support[]" value="英語">
+                    <label for="lang_support_english_chk">英語：</label>
+                    <input type="number" id="lang_support_english_num" name="lang_support_num_english" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="lang_support_other_chk" name="lang_support[]" value="その他（記述）">
+                    <label for="lang_support_other_chk">その他（記述）：</label>
+                    <input type="text" id="lang_support_other_text" name="lang_support_other_text" class="linked-text" placeholder="言語名">
+                    <input type="number" id="lang_support_other_num" name="lang_support_num_other" class="number-input" min="0"> <span class="unit">名</span>
+                </div>
+            </fieldset>
+
+             <fieldset>
+                <legend>進路指導者の種類と数</legend>
+                 <p class="fieldset-description">（該当するものにチェックを入れ、人数や補足事項を記入してください）</p>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_advisor_teacher_chk" name="career_advisor[]" value="教員兼任">
+                    <label for="career_advisor_teacher_chk">教員兼任：</label>
+                     <input type="number" id="career_advisor_teacher_num" name="career_advisor_num_teacher" class="number-input" min="0"> <span class="unit">名</span>
+                     <input type="text" id="career_advisor_teacher_text" name="career_advisor_text_teacher" class="linked-text" placeholder="補足（例：●名のうち専任●名など）">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_advisor_specialist_chk" name="career_advisor[]" value="専門担当">
+                    <label for="career_advisor_specialist_chk">専門担当：</label>
+                     <input type="number" id="career_advisor_specialist_num" name="career_advisor_num_specialist" class="number-input" min="0"> <span class="unit">名</span>
+                     <input type="text" id="career_advisor_specialist_text" name="career_advisor_text_specialist" class="linked-text" placeholder="補足">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="career_advisor_cc_chk" name="career_advisor[]" value="キャリアコンサルタント資格者の有無">
+                    <label for="career_advisor_cc_chk">キャリアコンサルタント資格者の有無：</label>
+                    <input type="text" id="career_advisor_cc_text" name="career_advisor_text_cc" class="linked-text" placeholder="有/無/人数など">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="career_advisor_lang_chk" name="career_advisor[]" value="日本語以外の相談可能か（英語等）">
+                    <label for="career_advisor_lang_chk">日本語以外の相談可能か（英語等）：</label>
+                    <input type="text" id="career_advisor_lang_text" name="career_advisor_text_lang" class="linked-text" placeholder="言語名、対応人数など">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="career_advisor_other_chk" name="career_advisor[]" value="その他">
+                    <label for="career_advisor_other_chk">その他：</label>
+                     <input type="text" id="career_advisor_other_text" name="career_advisor_other_text" class="linked-text" placeholder="種類">
+                     <input type="number" id="career_advisor_other_num" name="career_advisor_num_other" class="number-input" min="0"> <span class="unit">名</span>
+                 </div>
+            </fieldset>
+
+             <fieldset>
+                <legend>課外授業の実施内容</legend>
+                 <p class="fieldset-description">（複数選択可、補足記述可）</p>
+                 <div class="form-group">
+                    <input type="checkbox" id="extracurricular_fieldtrip_chk" name="extracurricular[]" value="月1回の校外学習（例：博物館、工場見学）">
+                    <label for="extracurricular_fieldtrip_chk">月1回の校外学習（例：博物館、工場見学）</label>
+                     <input type="text" id="extracurricular_fieldtrip_text" name="extracurricular_text_fieldtrip" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="extracurricular_volunteer_chk" name="extracurricular[]" value="地域ボランティア活動">
+                    <label for="extracurricular_volunteer_chk">地域ボランティア活動</label>
+                     <input type="text" id="extracurricular_volunteer_text" name="extracurricular_text_volunteer" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="extracurricular_culture_chk" name="extracurricular[]" value="日本文化体験（浴衣、書道など）">
+                    <label for="extracurricular_culture_chk">日本文化体験（浴衣、書道など）</label>
+                     <input type="text" id="extracurricular_culture_text" name="extracurricular_text_culture" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="extracurricular_company_visit_chk" name="extracurricular[]" value="企業見学・職場体験">
+                    <label for="extracurricular_company_visit_chk">企業見学・職場体験</label>
+                     <input type="text" id="extracurricular_company_visit_text" name="extracurricular_text_company_visit" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="extracurricular_event_chk" name="extracurricular[]" value="地域イベントへの参加">
+                    <label for="extracurricular_event_chk">地域イベントへの参加</label>
+                     <input type="text" id="extracurricular_event_text" name="extracurricular_text_event" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="extracurricular_local_exchange_chk" name="extracurricular[]" value="地元住民との交流活動">
+                    <label for="extracurricular_local_exchange_chk">地元住民との交流活動</label>
+                     <input type="text" id="extracurricular_local_exchange_text" name="extracurricular_text_local_exchange" class="linked-text" placeholder="具体的な内容">
+                </div>
+                 <div class="form-group">
+                    <input type="checkbox" id="extracurricular_other_chk" name="extracurricular[]" value="その他">
+                    <label for="extracurricular_other_chk">その他</label>
+                     <input type="text" id="extracurricular_other_text" name="extracurricular_other_text" class="linked-text" placeholder="内容">
+                </div>
+            </fieldset>
+        </section>
+
+
+        <div class="buttons">
+            <button type="button" id="saveButton">一時保存</button>
+            <button type="submit">送信</button>
+        </div>
+
+    </form>
+
+    <script>
+        const form = document.getElementById('japaneseSchoolForm');
+        const storageKey = 'japaneseSchoolFormData';
+
+        // Save form data to localStorage
+        function saveFormData() {
+            const formData = {};
+            const formElements = form.elements;
+
+            for (let i = 0; i < formElements.length; i++) {
+                const element = formElements[i];
+
+                // Skip elements without id or name, and buttons
+                if (!element.id && !element.name || element.type === 'submit' || element.type === 'button') {
+                    continue;
+                }
+
+                const elementId = element.id;
+                 // Ensure element has an ID to be used as the storage key
+                if (!elementId) {
+                     // console.warn("Skipping element without ID:", element);
+                     continue;
+                }
+
+
+                if (element.type === 'checkbox' || element.type === 'radio') {
+                     // Save checked state for checkboxes and radio buttons by their ID
+                     formData[elementId] = element.checked;
+                } else if (element.type === 'text' || element.type === 'number' || element.tagName === 'TEXTAREA') {
+                    // Save value for text, number, textarea by their ID
+                    formData[elementId] = element.value;
+                }
+                // Note: Select-one, select-multiple, etc. would need additional handling if present
+            }
+
+            localStorage.setItem(storageKey, JSON.stringify(formData));
+            console.log("Form data saved to localStorage.");
+
+             // Show alert only when the temporary save button was clicked
+             if (event && event.type === 'click' && event.target.id === 'saveButton') {
+                 alert("入力内容を一時保存しました。");
+             }
+        }
+
+        // Load saved data from localStorage
+        function loadFormData() {
+            const savedData = localStorage.getItem(storageKey);
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    console.log("Loading data from localStorage:", data);
+
+                    for (const id in data) {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            if (element.type === 'checkbox' || element.type === 'radio') {
+                                element.checked = data[id];
+                            } else if (element.type === 'text' || element.type === 'number' || element.tagName === 'TEXTAREA') {
+                                element.value = data[id];
+                            }
+                            // Note: Select-one, select-multiple, etc. would need additional handling if present
+                        } else {
+                            // console.warn(`Element with ID "${id}" not found for loading.`);
+                            // This might happen if form structure changes, ignore silently or log.
+                        }
+                    }
+                } catch (e) {
+                    console.error("Failed to parse localStorage data:", e);
+                    // Optionally clear invalid data
+                    // localStorage.removeItem(storageKey);
+                }
+            }
+        }
+
+        // Event listener for the temporary save button
+        const saveButton = document.getElementById('saveButton');
+        if (saveButton) {
+            saveButton.addEventListener('click', saveFormData);
+        }
+
+        // Autosave on form changes. 'change' event is suitable for many input types.
+        // Consider debouncing/throttling this in a large/complex form for performance.
+        form.addEventListener('change', saveFormData);
+         form.addEventListener('input', saveFormData); // Also listen to input for text fields changing rapidly
+
+
+        // Load data when the page finishes loading
+        window.addEventListener('load', loadFormData);
+
+        // Optional: Handle form submission (e.g., send data via fetch/XHR)
+        // In this example, the default submit action is not prevented,
+        // but localStorage data is not cleared.
+        form.addEventListener('submit', function(event) {
+            // To prevent actual form submission and handle it via JS:
+            // event.preventDefault();
+
+            // Gather final data (redundant if auto-save is on 'change'/'input', but safer)
+            // const finalData = {};
+            // const formElements = form.elements;
+            // for (let i = 0; i < formElements.length; i++) {
+            //     const element = formElements[i];
+            //     if (!element.id || element.type === 'submit' || element.type === 'button') continue;
+            //     if (element.type === 'checkbox' || element.type === 'radio') {
+            //         finalData[element.id] = element.checked;
+            //     } else {
+            //         finalData[element.id] = element.value;
+            //     }
+            // }
+            // console.log("Submitting data:", finalData);
+
+            // Example: Send data using fetch API
+            // fetch('/your-server-endpoint', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(finalData),
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log('Success:', data);
+            //     // Optional: Clear localStorage after successful submission
+            //     // localStorage.removeItem(storageKey);
+            //     alert('フォームが送信されました。');
+            //     // Redirect or show success message
+            // })
+            // .catch((error) => {
+            //     console.error('Error:', error);
+            //     alert('送信中にエラーが発生しました。');
+            // });
+
+             console.log("Form submission triggered. (Data is not sent to a server in this example)");
+             // Optional: Uncomment the line below and add fetch() call above to handle submission in JS
+             // event.preventDefault();
+        });
+
+    </script>
+
 </body>
 </html>
