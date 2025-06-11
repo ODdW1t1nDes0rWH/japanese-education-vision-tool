@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
             const name = element.name;
-            const value = element.value.trim();
+            const value = (element.value || '').trim();
             const id = element.id;
 
             // name属性がない、または送信ボタンなどはスキップ
