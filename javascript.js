@@ -420,7 +420,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         prompt += "\n--- 回答ここまで ---\n";
         prompt += "\n上記の情報を踏まえ、この日本語学校の特徴や強みを把握し、今後の運営や発展のための具体的なアドバイスや考慮事項を提案してください。学生募集、教育内容、教員体制、地域連携などの観点を含め、多角的な視点で回答をお願いします。";
-
+        
+        const preview = document.getElementById("promptPreview");
+        if (preview) {
+        preview.innerText = prompt;
+        }
 
         console.log("Generated Prompt:", prompt);
         return prompt;
