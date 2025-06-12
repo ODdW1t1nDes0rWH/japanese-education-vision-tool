@@ -467,27 +467,29 @@ fetch('/.netlify/functions/gemini', {
     console.log('Geminiの返答:', data);
   });
 
-async function callGeminiAPI(prompt) {
-  try {
-    const response = await fetch('/.netlify/functions/gemini', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prompt })
-    });
+async function sendPrompt() {
+  const prompt = document.getElementById("prompt").value;
+  const output = document.getElementById("output");
+  output.textContent = "Loading...";
 
-    if (!response.ok) {
-      throw new Error('Gemini API 呼び出しに失敗しました');
-    }
+  try {
+    const response = await fetch("/.netlify/functions/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt }),
+    });
 
     const data = await response.json();
 
-    // Geminiの返答を整形して表示
-    const geminiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || '返答がありませんでした';
-    document.getElementById('gemini-response').textContent = geminiResponse;
-  } catch (error) {
-    console.error(error);
-    document.getElementById('gemini-response').textContent = 'エラーが発生しました: ' + error.message;
+    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+      output.textContent = data.candidates[0].content.parts[0].text;
+    } else if (data?.error) {
+      output.textContent = `エラー: ${data.error}`;
+    } else {
+      output.textContent = "不明なレスポンスです。";
+    }
+  } catch (err) {
+    output.textContent = "通信エラー: " + err.message;
   }
 }
+
