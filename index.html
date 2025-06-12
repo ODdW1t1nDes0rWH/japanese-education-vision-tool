@@ -1065,157 +1065,18 @@
 
         <div class="buttons">
             <button type="button" id="saveButton">一時保存</button>
-            <button onclick="sendPrompt()">送信</button>
-
+            <button type="submit">AIに送信する</button>
         </div>
-<h3>AIに送る内容（確認用）</h3>
-<pre id="promptPreview" style="background:#f9f9f9; padding:1em; border:1px solid #ccc;"></pre>
+        
+        <h3>AIに送る内容（確認用）</h3>
+        <pre id="promptPreview" style="background:#f9f9f9; padding:1em; border:1px solid #ccc; white-space: pre-wrap; word-wrap: break-word;"></pre>
     </form>
 
-    <script>
-        const form = document.getElementById('japaneseSchoolForm');
-        const storageKey = 'japaneseSchoolFormData';
+    <h2>AIの回答</h2>
+    <div id="outputArea" style="white-space: pre-wrap; margin-top: 10px; padding: 1em; border: 1px solid #ddd; background-color: #fff; border-radius: 6px;"></div>
 
-        // Save form data to localStorage
-        function saveFormData() {
-            const formData = {};
-            const formElements = form.elements;
-
-            for (let i = 0; i < formElements.length; i++) {
-                const element = formElements[i];
-
-                // Skip elements without id or name, and buttons
-                if (!element.id && !element.name || element.type === 'submit' || element.type === 'button') {
-                    continue;
-                }
-
-                const elementId = element.id;
-                 // Ensure element has an ID to be used as the storage key
-                if (!elementId) {
-                     // console.warn("Skipping element without ID:", element);
-                     continue;
-                }
-
-
-                if (element.type === 'checkbox' || element.type === 'radio') {
-                     // Save checked state for checkboxes and radio buttons by their ID
-                     formData[elementId] = element.checked;
-                } else if (element.type === 'text' || element.type === 'number' || element.tagName === 'TEXTAREA') {
-                    // Save value for text, number, textarea by their ID
-                    formData[elementId] = element.value;
-                }
-                // Note: Select-one, select-multiple, etc. would need additional handling if present
-            }
-
-            localStorage.setItem(storageKey, JSON.stringify(formData));
-            console.log("Form data saved to localStorage.");
-
-             // Show alert only when the temporary save button was clicked
-             if (event && event.type === 'click' && event.target.id === 'saveButton') {
-                 alert("入力内容を一時保存しました。");
-             }
-        }
-
-        // Load saved data from localStorage
-        function loadFormData() {
-            const savedData = localStorage.getItem(storageKey);
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    console.log("Loading data from localStorage:", data);
-
-                    for (const id in data) {
-                        const element = document.getElementById(id);
-                        if (element) {
-                            if (element.type === 'checkbox' || element.type === 'radio') {
-                                element.checked = data[id];
-                            } else if (element.type === 'text' || element.type === 'number' || element.tagName === 'TEXTAREA') {
-                                element.value = data[id];
-                            }
-                            // Note: Select-one, select-multiple, etc. would need additional handling if present
-                        } else {
-                            // console.warn(`Element with ID "${id}" not found for loading.`);
-                            // This might happen if form structure changes, ignore silently or log.
-                        }
-                    }
-                } catch (e) {
-                    console.error("Failed to parse localStorage data:", e);
-                    // Optionally clear invalid data
-                    // localStorage.removeItem(storageKey);
-                }
-            }
-        }
-
-        // Event listener for the temporary save button
-        const saveButton = document.getElementById('saveButton');
-        if (saveButton) {
-            saveButton.addEventListener('click', saveFormData);
-        }
-
-        // Autosave on form changes. 'change' event is suitable for many input types.
-        // Consider debouncing/throttling this in a large/complex form for performance.
-        form.addEventListener('change', saveFormData);
-         form.addEventListener('input', saveFormData); // Also listen to input for text fields changing rapidly
-
-
-        // Load data when the page finishes loading
-        window.addEventListener('load', loadFormData);
-
-        // Optional: Handle form submission (e.g., send data via fetch/XHR)
-        // In this example, the default submit action is not prevented,
-        // but localStorage data is not cleared.
-        form.addEventListener('submit', function(event) {
-            // To prevent actual form submission and handle it via JS:
-            // event.preventDefault();
-
-            // Gather final data (redundant if auto-save is on 'change'/'input', but safer)
-            // const finalData = {};
-            // const formElements = form.elements;
-            // for (let i = 0; i < formElements.length; i++) {
-            //     const element = formElements[i];
-            //     if (!element.id || element.type === 'submit' || element.type === 'button') continue;
-            //     if (element.type === 'checkbox' || element.type === 'radio') {
-            //         finalData[element.id] = element.checked;
-            //     } else {
-            //         finalData[element.id] = element.value;
-            //     }
-            // }
-            // console.log("Submitting data:", finalData);
-
-            // Example: Send data using fetch API
-            // fetch('/your-server-endpoint', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(finalData),
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     console.log('Success:', data);
-            //     // Optional: Clear localStorage after successful submission
-            //     // localStorage.removeItem(storageKey);
-            //     alert('フォームが送信されました。');
-            //     // Redirect or show success message
-            // })
-            // .catch((error) => {
-            //     console.error('Error:', error);
-            //     alert('送信中にエラーが発生しました。');
-            // });
-
-             console.log("Form submission triggered. (Data is not sent to a server in this example)");
-             // Optional: Uncomment the line below and add fetch() call above to handle submission in JS
-             // event.preventDefault();
-        });
-
-    </script>
-    <!-- AIの答えを表示する場所 -->
-  <div id="outputArea" style="white-space: pre-wrap; margin-top: 20px;"></div>
-
-  <!-- JavaScriptを読み込む -->
-  <script src="javascript.js"></script>
-<h2>Geminiの返答:</h2>
-<pre id="gemini-response"></pre>
+    <!-- 外部JavaScriptファイルを読み込む -->
+    <script src="javascript.js"></script>
 
 </body>
 </html>
