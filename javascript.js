@@ -4,45 +4,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('japaneseSchoolForm');
     const outputArea = document.getElementById('outputArea'); // 回答を表示する要素
 
-    // APIキーをYOUR_API_KEYに置き換えてください
-    const GEMINI_API_KEY = 'YOUR_API_KEY';
-
     // Gemini APIにリクエストを送信する関数
-    async function callGemini(prompt) {
-        if (GEMINI_API_KEY === 'YOUR_API_KEY' || !GEMINI_API_KEY) {
-            console.error("APIキーが設定されていません。'YOUR_API_KEY'を有効なキーに置き換えてください。");
-            return "エラー：APIキーが設定されていません。";
-        }
+    async function sendPrompt() {
+  const prompt = document.getElementById("prompt").value;
+  const output = document.getElementById("output");
+  output.textContent = "Loading...";
 
-        try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }]
-                })
-            });
+  try {
+    const response = await fetch("/.netlify/functions/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt }),
+    });
 
-            if (!response.ok) {
-                 const errorBody = await response.text();
-                 console.error("API Error Response:", response.status, errorBody);
-                 return `APIエラーが発生しました (Status: ${response.status})`;
-            }
+    const data = await response.json();
 
-            const data = await response.json();
-            console.log("Gemini API response:", data);
-
-            // 応答からテキスト部分を抽出
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            return text || "AIからお返事がなかったよ。別の質問で試してみてね。";
-
-        } catch (error) {
-            console.error("Error calling Gemini API:", error);
-            return "API呼び出し中にエラーが発生しました。ネットワーク接続やAPIキーを確認してください。";
-        }
+    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+      output.textContent = data.candidates[0].content.parts[0].text;
+    } else if (data?.error) {
+      output.textContent = `エラー: ${data.error}`;
+    } else {
+      output.textContent = "不明なレスポンスです。";
     }
+  } catch (err) {
+    output.textContent = "通信エラー: " + err.message;
+  }
+}
 
     // フォームデータを収集し、プロンプト文字列を生成する関数
     function generatePrompt(form) {
@@ -467,29 +454,5 @@ fetch('/.netlify/functions/gemini', {
     console.log('Geminiの返答:', data);
   });
 
-async function sendPrompt() {
-  const prompt = document.getElementById("prompt").value;
-  const output = document.getElementById("output");
-  output.textContent = "Loading...";
 
-  try {
-    const response = await fetch("/.netlify/functions/gemini", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt }),
-    });
-
-    const data = await response.json();
-
-    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      output.textContent = data.candidates[0].content.parts[0].text;
-    } else if (data?.error) {
-      output.textContent = `エラー: ${data.error}`;
-    } else {
-      output.textContent = "不明なレスポンスです。";
-    }
-  } catch (err) {
-    output.textContent = "通信エラー: " + err.message;
-  }
-}
 
