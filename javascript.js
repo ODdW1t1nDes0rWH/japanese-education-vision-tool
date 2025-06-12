@@ -1,38 +1,46 @@
-// フォームの送信を処理し、AIに送るプロンプトを生成・送信するJavaScriptコード
-
 document.addEventListener('DOMContentLoaded', function() {
+    // === 要素の取得 ===
     const form = document.getElementById('japaneseSchoolForm');
-    const outputArea = document.getElementById('outputArea'); // 回答を表示する要素
+    const outputArea = document.getElementById('outputArea');
+    const saveButton = document.getElementById('saveButton');
+    const promptPreview = document.getElementById('promptPreview');
+    const storageKey = 'japaneseSchoolFormData';
 
-    // Gemini APIにリクエストを送信する関数
-    async function sendPrompt() {
-  const prompt = document.getElementById("prompt").value;
-  const output = document.getElementById("output");
-  output.textContent = "Loading...";
+    // === Gemini APIを呼び出す関数 ===
+    async function callGeminiAPI(prompt) {
+        outputArea.textContent = "AIが考え中だよ... しばらくお待ちください。";
 
-  try {
-    const response = await fetch("/.netlify/functions/gemini", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt }),
-    });
+        try {
+            // Netlify Functionsのエンドポイントを呼び出す
+            const response = await fetch("/.netlify/functions/gemini", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: prompt }), // promptをオブジェクトに格納
+            });
 
-    const data = await response.json();
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`サーバーエラー: ${response.status} ${response.statusText}\n${errorText}`);
+            }
 
-    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      output.textContent = data.candidates[0].content.parts[0].text;
-    } else if (data?.error) {
-      output.textContent = `エラー: ${data.error}`;
-    } else {
-      output.textContent = "不明なレスポンスです。";
+            const data = await response.json();
+
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+                return data.candidates[0].content.parts[0].text;
+            } else if (data?.error) {
+                throw new Error(`APIエラー: ${data.error}`);
+            } else {
+                console.error("Unknown response format:", data);
+                throw new Error("AIから有効な回答が得られませんでした。");
+            }
+        } catch (err) {
+            console.error("API call failed:", err);
+            return `エラーが発生しました。\n\n詳細: ${err.message}\n\nブラウザの開発者コンソールで詳細を確認してください。`;
+        }
     }
-  } catch (err) {
-    output.textContent = "通信エラー: " + err.message;
-  }
-}
 
-    // フォームデータを収集し、プロンプト文字列を生成する関数
-    function generatePrompt(form) {
+    // === フォームデータを収集し、プロンプト文字列を生成する関数 ===
+     function generatePrompt(form) {
         let prompt = "以下の日本語学校設立に関するアンケート回答に基づいて、日本語学校の理念・目的・目標などを出力してください。【出力してほしい内容】1学校の理念（100文字前後）具体的なキーワードを必ず含め、シンプルかつ印象的に記述。2学校の目的「誰が」「何を」「どうするか」の三要素を含め、教育機関としての社会的・教育的な存在意義を詳細に記述。3学校の目標（定量的な目標3つ）各目標は2～3行ずつ。「○○する力」などの形式で記載。できる限り測定可能な動詞や数値を使って具体的に。4教育課程の概要上記の目標を実現するために必要な教育課程を構造的に説明（例：会話重視・ビジネス日本語・特定技能対策など）。5学校の特色（詳細に複数段落）教育内容、学校運営、支援体制、地域や企業との連携など、他校との差別化が見えるように。6修了要件育てたい学生像に到達したかどうかを数値で測定する仕組みを記述（例：JLPT N2、出席率90%、課題提出率など必ず具体的であること）。7必要な生活指導者の数と対応言語学生の出身国・生活上の支援内容に基づいて、必要な人数・言語サポートを記載。8進路指導者の数と種類（担当業務）就職や進学サポートに必要な職種・人数・具体的な対応内容を記述（例：企業連携対応者・進学相談担当など）。9課外授業の内容・頻度・外部連携学生像や地域性に応じて、望ましい課外授業を設計。例：月1回の地域訪問、週1の就職準備ワークショップなど。\n\n";
         prompt += "--- アンケート回答 ---\n";
 
@@ -418,45 +426,72 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // フォーム送信時のイベントリスナー
+
+    // === LocalStorageへの保存・読み込み ===
+    function saveFormData() {
+        const formData = {};
+        const elements = form.elements;
+        for (let i = 0; i < elements.length; i++) {
+            const el = elements[i];
+            if (!el.id || el.type === 'submit' || el.type === 'button') continue;
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                formData[el.id] = el.checked;
+            } else {
+                formData[el.id] = el.value;
+            }
+        }
+        localStorage.setItem(storageKey, JSON.stringify(formData));
+        // console.log("Form data saved to localStorage.");
+        generatePrompt(form); // 変更があるたびにプレビューを更新
+    }
+
+    function loadFormData() {
+        const savedData = localStorage.getItem(storageKey);
+        if (!savedData) return;
+        try {
+            const data = JSON.parse(savedData);
+            for (const id in data) {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'checkbox' || el.type === 'radio') {
+                        el.checked = data[id];
+                    } else {
+                        el.value = data[id];
+                    }
+                }
+            }
+            console.log("Form data loaded from localStorage.");
+            generatePrompt(form);
+        } catch (e) {
+            console.error("Failed to parse localStorage data:", e);
+        }
+    }
+
+    // === イベントリスナーの設定 ===
     form.addEventListener('submit', async function(event) {
         event.preventDefault(); // フォームのデフォルト送信をキャンセル
 
-        // ユーザーにAPI実行の確認を求める
-        const confirmation = confirm("入力内容に基づいてAIにアドバイスを求めますか？（AI利用には費用が発生する場合があります）");
-         if (!confirmation) {
-             console.log("AI処理をキャンセルしました。");
-             return; // キャンセルされたら処理を中断
-         }
+        const confirmation = confirm("入力内容に基づいてAIにアドバイスを求めますか？");
+        if (!confirmation) {
+            console.log("AI処理をキャンセルしました。");
+            return;
+        }
 
-
-        // 出力エリアをクリアし、ローディングメッセージを表示
-        outputArea.innerHTML = '';
-        outputArea.textContent = "AIが考え中だよ... しばらくお待ちください。";
-
-        // プロンプト生成
-        const prompt = generatePrompt(form);
-
-        // Gemini APIを呼び出し
-        const aiReply = await callGemini(prompt);
-
-        // 結果を表示
+        const promptText = generatePrompt(form);
+        const aiReply = await callGeminiAPI(promptText);
         outputArea.textContent = aiReply;
     });
+
+    if (saveButton) {
+        saveButton.addEventListener('click', () => {
+             saveFormData();
+             alert("入力内容を一時保存しました。");
+        });
+    }
+
+    form.addEventListener('change', saveFormData);
+    form.addEventListener('input', saveFormData);
+
+    // === 初期化処理 ===
+    loadFormData();
 });
-fetch('/.netlify/functions/gemini', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ prompt: 'こんにちは' })
-})
-  .then(res => res.json())
-  .then(data => {
-    console.log('Geminiの返答:', data);
-  });
-
-
-async function sendPrompt() {
-    const prompt = document.getElementById("promptInput").value;
-    const result = await callGemini(prompt);
-    document.getElementById("outputArea").textContent = result;
-}
