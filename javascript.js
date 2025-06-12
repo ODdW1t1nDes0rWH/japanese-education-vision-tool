@@ -455,4 +455,8 @@ fetch('/.netlify/functions/gemini', {
   });
 
 
-
+async function sendPrompt() {
+    const prompt = document.getElementById("promptInput").value;
+    const result = await callGemini(prompt);
+    document.getElementById("outputArea").textContent = result;
+}
