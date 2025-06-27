@@ -201,153 +201,93 @@ document.addEventListener('DOMContentLoaded', function() {
               }
          }
 
-         // 進路指導者の種類と数 (career_advisor[])
-         const careerAdvisorValues = [];
-         if (data['career_advisor']) {
-             data['career_advisor'].forEach(advisorType => {
-                 let displayValue = advisorType;
-                 let numValue = null;
-                 let textValue = null;
+         // 進路指導者の種類と数 (career_adviser[])
+         const careerAdviserValues = [];
+        if (data['career_adviser']) {
+            data['career_adviser'].forEach(adviserType => {
+                let displayValue = adviserType;
+                let numValue = null;
+                let textValue = null;
 
-                 let baseId = '';
-                 const checkboxElement = form.querySelector(`input[name="career_advisor[]"][value="${advisorType}"]`);
-                  if (checkboxElement) {
-                     baseId = checkboxElement.id;
-                 }
+                let baseId = '';
+                const checkboxElement = form.querySelector(`input[name="career_adviser[]"][value="${adviserType}"]`);
+                if (checkboxElement) {
+                    baseId = checkboxElement.id;
+                }
 
-                 if (baseId) {
-                     if (baseId === 'career_advisor_teacher_chk') {
-                         numValue = form.elements['career_advisor_num_teacher']?.value.trim();
-                         textValue = form.elements['career_advisor_text_teacher']?.value.trim();
-                     }
-                     if (baseId === 'career_advisor_specialist_chk') {
-                         numValue = form.elements['career_advisor_num_specialist']?.value.trim();
-                         textValue = form.elements['career_advisor_text_specialist']?.value.trim();
-                     }
-                     if (baseId === 'career_advisor_cc_chk') {
-                         textValue = form.elements['career_advisor_text_cc']?.value.trim();
-                     }
-                      if (baseId === 'career_advisor_lang_chk') {
-                         textValue = form.elements['career_advisor_text_lang']?.value.trim();
-                      }
-                     if (baseId === 'career_advisor_other_chk') {
-                         textValue = form.elements['career_advisor_other_text']?.value.trim();
-                         numValue = form.elements['career_advisor_num_other']?.value.trim();
-                         if (textValue) displayValue = `${advisorType}（${textValue}）`; // 「その他（種類）」のように表示
-                     }
-                 }
-
-                 let formattedValue = displayValue;
-                 const parts = [];
-                 if (numValue && parseInt(numValue, 10) > 0) parts.push(`${numValue}名`);
-                 if (textValue) parts.push(textValue);
-
-                 if (parts.length > 0) {
-                    formattedValue += `（${parts.join('、')}）`;
-                 } else if (baseId === 'career_advisor_other_chk' && (numValue === null || numValue === '' || parseInt(numValue, 10) === 0) && (textValue === null || textValue === '')) {
-                     // 「その他」で何も入力されていない場合はスキップ
-                     return;
-                 }
-
-                  careerAdvisorValues.push(formattedValue);
-             });
-             delete data['career_advisor'];
-              if (careerAdvisorValues.length > 0) {
-                 data['career_advisor_summary'] = careerAdvisorValues;
-              }
-         }
-
-
-         // 課外授業の実施内容 (extracurricular[])
-         const extracurricularValues = [];
-         if (data['extracurricular']) {
-             data['extracurricular'].forEach(activity => {
-                 let displayValue = activity;
-                 let textValue = null;
-
-                 let baseId = '';
-                 const checkboxElement = form.querySelector(`input[name="extracurricular[]"][value="${activity}"]`);
-                  if (checkboxElement) {
-                     baseId = checkboxElement.id;
-                 }
-
-                  if (baseId) {
-                     if (baseId === 'extracurricular_fieldtrip_chk') textValue = form.elements['extracurricular_text_fieldtrip']?.value.trim();
-                     if (baseId === 'extracurricular_volunteer_chk') textValue = form.elements['extracurricular_text_volunteer']?.value.trim();
-                     if (baseId === 'extracurricular_culture_chk') textValue = form.elements['extracurricular_text_culture']?.value.trim();
-                     if (baseId === 'extracurricular_company_visit_chk') textValue = form.elements['extracurricular_text_company_visit']?.value.trim();
-                     if (baseId === 'extracurricular_event_chk') textValue = form.elements['extracurricular_text_event']?.value.trim();
-                     if (baseId === 'extracurricular_local_exchange_chk') textValue = form.elements['extracurricular_text_local_exchange']?.value.trim();
-                      if (baseId === 'extracurricular_other_chk') {
-                         textValue = form.elements['extracurricular_other_text']?.value.trim();
-                         if (textValue) displayValue = `${activity}（${textValue}）`; // 「その他（内容）」のように表示
-                      }
-                  }
-
-                 let formattedValue = displayValue;
-                 if (textValue && baseId !== 'extracurricular_other_chk') {
-                     // 「その他」以外の項目で補足テキストがある場合
-                      formattedValue += `（補足：${textValue}）`;
-                 }
-
-                 // 「その他」でテキストがない場合はスキップ
-                 if (baseId === 'extracurricular_other_chk' && (textValue === null || textValue === '')) {
-                     return;
-                 }
-
-                 extracurricularValues.push(formattedValue);
-             });
-             delete data['extracurricular'];
-              if (extracurricularValues.length > 0) {
-                 data['extracurricular_summary'] = extracurricularValues;
-              }
-         }
-
-         // 独自のチェックボックス+テキスト処理（uniqueness[]）
-         const uniquenessValues = [];
-         if (data['uniqueness']) {
-             data['uniqueness'].forEach(uniqueItem => {
-                 let displayValue = uniqueItem;
-                 let textValue = null;
-
-                 let baseId = '';
-                 const checkboxElement = form.querySelector(`input[name="uniqueness[]"][value="${uniqueItem}"]`);
-                  if (checkboxElement) {
-                     baseId = checkboxElement.id;
-                 }
-
-                 if (baseId) {
-                     // 対応するテキスト入力のIDを探す（IDのサフィックス '_chk' を '_text' に置き換える）
-                     const textId = baseId.replace('_chk', '_text');
-                     const textElement = document.getElementById(textId);
-                     if (textElement) {
-                          textValue = textElement.value.trim();
-                     }
-                 }
-
-                 let formattedValue = displayValue;
-                 if (textValue) {
-                    // 「その他」の場合は「その他（入力内容）」、「その他」以外の場合は「項目名（補足：入力内容）」
-                    if (uniqueItem === "その他") {
-                         formattedValue = `${uniqueItem}（${textValue}）`;
-                    } else {
-                         formattedValue += `（補足：${textValue}）`;
+                if (baseId) {
+                    if (baseId === 'career_adviser_teacher') {
+                        numValue = form.elements['career_adviser_teacher_num']?.value.trim();
                     }
-                 } else if (uniqueItem === "その他" && (!textValue || textValue === '')) {
-                     // 「その他」がチェックされているがテキスト入力がない場合はスキップ
-                     return;
-                 }
+                    if (baseId === 'career_adviser_specialist') {
+                        numValue = form.elements['career_adviser_specialist_num']?.value.trim();
+                    }
+                    if (baseId === 'career_adviser_consultant') {
+                        textValue = form.elements['career_adviser_consultant_text']?.value.trim();
+                    }
+                    if (baseId === 'career_adviser_foreignlang') {
+                        textValue = form.elements['career_adviser_foreignlang_text']?.value.trim();
+                    }
+                    if (baseId === 'career_adviser_other_chk') {
+                        textValue = form.elements['career_adviser_other_text']?.value.trim();
+                        numValue = form.elements['career_adviser_other_num']?.value.trim();
+                        if (textValue) displayValue = `${adviserType}（${textValue}）`;
+                    }
+                }
 
-                 uniquenessValues.push(formattedValue);
-             });
-             delete data['uniqueness'];
-              if (uniquenessValues.length > 0) {
-                 data['uniqueness_summary'] = uniquenessValues;
-              }
-         }
+                let formattedValue = displayValue;
+                const parts = [];
+                if (numValue && parseInt(numValue, 10) > 0) parts.push(`${numValue}名`);
+                if (textValue && baseId !== 'career_adviser_other_chk' && baseId !== 'career_adviser_consultant' && baseId !== 'career_adviser_foreignlang') parts.push(textValue);
+                if (baseId === 'career_adviser_consultant' || baseId === 'career_adviser_foreignlang') {
+                    if (textValue) parts.push(textValue);
+                }
+                if (parts.length > 0) {
+                    formattedValue += `（${parts.join('、')}）`;
+                } else if (baseId === 'career_adviser_other_chk' && (numValue === null || numValue === '' || parseInt(numValue, 10) === 0) && (textValue === null || textValue === '')) {
+                    return;
+                }
+                careerAdviserValues.push(formattedValue);
+            });
+            delete data['career_adviser'];
+            if (careerAdviserValues.length > 0) {
+                data['career_adviser_summary'] = careerAdviserValues;
+            }
+        }
 
+        // 課外授業の実施内容 (extra_class[])
+        const extraClassValues = [];
+        if (data['extra_class']) {
+            data['extra_class'].forEach(activity => {
+                let displayValue = activity;
+                let textValue = null;
+                let baseId = '';
+                const checkboxElement = form.querySelector(`input[name="extra_class[]"][value="${activity}"]`);
+                if (checkboxElement) {
+                    baseId = checkboxElement.id;
+                }
+                if (baseId) {
+                    if (baseId === 'extra_other_chk') {
+                        textValue = form.elements['extra_other_text']?.value.trim();
+                        if (textValue) displayValue = `${activity}（${textValue}）`;
+                    }
+                }
+                let formattedValue = displayValue;
+                if (textValue && baseId !== 'extra_other_chk') {
+                    formattedValue += `（補足：${textValue}）`;
+                }
+                if (baseId === 'extra_other_chk' && (!textValue || textValue === '')) {
+                    return;
+                }
+                extraClassValues.push(formattedValue);
+            });
+            delete data['extra_class'];
+            if (extraClassValues.length > 0) {
+                data['extra_class_summary'] = extraClassValues;
+            }
+        }
 
-        // プロンプトに整形して追加するための表示名マップ
+        // displayNameMapの修正
         const displayNameMap = {
             // セクション1
             'intent': '設立しようと思ったきっかけ',
@@ -381,8 +321,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'support_staff_fulltime': '専任生活指導担当者数',
             'support_staff_parttime': '兼任生活指導担当者数',
             'lang_support_summary': '母語対応可能な言語・対応人数', // 特殊処理済みのキー
-            'career_advisor_summary': '進路指導者の種類と数', // 特殊処理済みのキー
-            'extracurricular_summary': '課外授業の実施内容' // 特殊処理済みのキー
+            'career_adviser_summary': '進路指導者の種類と数', // 特殊処理済みのキー
+            'extra_class_summary': '課外授業の実施内容' // 特殊処理済みのキー
             // 自由記述など、HTMLに特定の要素がない場合はここに追加しない
         };
 
